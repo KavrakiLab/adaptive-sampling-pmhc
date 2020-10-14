@@ -66,6 +66,7 @@ The reaction coordinate used requires that the pMHC is aligned such that the lon
 After doing so, the z coordinate is approximately aligned with the vector normal of the beta sheet floor, which characterizes the unbinding direction that a peptide must take to escape the binding site.
 The reaction coordinate is measured as the z-coordinate distance between the center of mass between the beta sheet floor and the center of mass of the peptide.
 In the paper, we refer to this as the z-dist value.
+The pMHC can be aligned with PDB: 3I6L to achieve this property.
 For the exact implementation, refer to `run_md_us.py`
 
 We run umbrella sampling simulations centered from 1.0 nm (representing the native state z-dist value) to 3.0 nm (representing z-dist value of the unbound state) in increments of 0.1 nm using a force constant of 100 kJ/mol/nm^2.
