@@ -148,7 +148,9 @@ The last part of the notebook relates to incorporating bootstrapping.
 Run `bootstrap_us.py` before executing those cells.
 
 
+# Contact
 
+For any questions, feel free to contact Jayvee Abella at `jayvee.r.abella@gmail.com`. 
 
 
 
