@@ -20,6 +20,8 @@ for i in range(1000):
     else: break
 print(num_trajs)  
 
+# Because there is no bounding box in the implicit solvent simulations, 
+# trajectories must be removed that unbind and travel far from the binding site
 traj_to_exclude = []
 unbound_trajs = [] #[e for e in range(707, 723)
 global_traj_indices = np.array([gi for gi in np.arange(num_trajs) if gi not in traj_to_exclude])
