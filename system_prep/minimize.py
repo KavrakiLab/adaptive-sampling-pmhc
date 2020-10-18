@@ -18,7 +18,7 @@ def main():
 
     pdb = PDBFile(filename)
     top = pdb.getTopology()
-    positions = np.array(pdb.positions) #pdb.getPositions(asNumpy=True)
+    positions = np.array(pdb.positions)
     numAtoms = len(positions)
 
     print("Number of atoms:", numAtoms)
@@ -26,15 +26,11 @@ def main():
 
     positions = np.reshape(positions, (3*numAtoms,1))
 
-    # run file through pdb fixer first
-
-    #forcefield = ForceField('amber99sb.xml', 'tip3p.xml')
     forcefield = app.ForceField('amber99sbildn.xml', 'amber99_obc.xml')
-    #forcefield = app.ForceField('amber03.xml', 'amber03_obc.xml')
-    #forcefield = app.ForceField('amber10.xml', 'amber10_obc.xml')
     modeller = Modeller(pdb.topology, pdb.positions)
     system = forcefield.createSystem(modeller.topology, nonbondedMethod=CutoffNonPeriodic, constraints=None)
 
+    # constrain all backbone atoms
     force_constant = 5000
     force = CustomExternalForce("k*periodicdistance(x, y, z, x0, y0, z0)^2")
     force.addGlobalParameter("k", force_constant)
@@ -57,7 +53,6 @@ def main():
 
 
     integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
-    #integrator = VerletIntegrator(0.002*picoseconds)
     platform = Platform.getPlatformByName('OpenCL')
     simulation = Simulation(modeller.topology, system, integrator, platform)
 
