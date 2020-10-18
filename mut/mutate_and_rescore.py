@@ -4,11 +4,9 @@ from subprocess import call
 from subprocess import check_output
 import sys
 
-#call(["mkdir wild"], shell=True)
-
 topfile = sys.argv[1]
 
-#call(["mdconvert output.dcd -s 25 -t " + topfile + " -o output_every1ns.dcd"], shell=True)
+#call(["mdconvert output.dcd -s 25 -t " + topfile + " -o output_every1ns_fix.dcd"], shell=True)
 
 f = md.load("output_every1ns_fix.dcd", top=topfile)
 
@@ -17,13 +15,16 @@ for i, conf in enumerate(f):
 
     conf_name = str(i).zfill(5) + ".pdb"
     conf.save_pdb(conf_name)
-    for mutant in ["wild", "Q1", "F2", "K3", "D4", "N5", "V6", "I7", "L8", "L9", "Q155", "Y159"]:
-        if mutant not in ["Q155", "Y159"]: continue
+    for mutant in ["wild", "Q1", "F2", "K3", "D4", "N5", "V6", "I7", "L8", "L9"]:
+    #for mutant in ["Q155", "Y159"]:  
         new_conf_name = mutant + "-" + conf_name
         if mutant == "wild": call(["cp " + conf_name + " " + new_conf_name], shell=True)
+        # Valine and Isoleucine require special handling
         elif mutant in ["V6","I7"]: call(["pymol -qc mutate_V6I7.py " + conf_name + " B/" + mutant[1] + "/ ALA " + new_conf_name], shell=True)
-        #else: call(["pymol -qc mutate.py " + conf_name + " B/" + mutant[1] + "/ ALA " + new_conf_name], shell=True)
-        else: call(["pymol -qc mutate.py " + conf_name + " A/" + mutant[1:] + "/ ALA " + new_conf_name], shell=True)        
+        # Use for peptide mutations
+        else: call(["pymol -qc mutate.py " + conf_name + " B/" + mutant[1] + "/ ALA " + new_conf_name], shell=True)
+        # Use for MHC mutations
+        #else: call(["pymol -qc mutate.py " + conf_name + " A/" + mutant[1:] + "/ ALA " + new_conf_name], shell=True)        
 
         if mutant in ["Q1"]: 
             call(["sed '/B   /d' " + new_conf_name + " | sed '/TER/d' | sed '/END/d' > temp1.pdb"], shell=True)

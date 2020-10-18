@@ -44,6 +44,7 @@ Consider adding steps to your pipeline that give you greater confidence in your 
 ### d) Truncate and minimize structure as preparation for equilibration
 
 Only the first 180 residues of the alpha chain and the peptide are kept which make up the binding site.
+From now on, the MHC is chain A and the peptide is chain B.
 Constraints are added to the backbone of the system during minimization.
 For all simulations after this step, a constraint exists for the beta sheet floor of the MHC which was the main contact between the binding site and the truncated portion.
 

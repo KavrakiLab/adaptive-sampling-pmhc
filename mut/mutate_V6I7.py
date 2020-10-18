@@ -1,9 +1,6 @@
 # pymol -qc mutate.py pdb selection new_residue
 # example: pymol -qc mutate.py 0.pdb C/1/ ALA 0_mutated.pdb
 
-# run for all the confs in the ensemble
-# append all to one using mdconvert
-
 from pymol import cmd
 import sys
 
